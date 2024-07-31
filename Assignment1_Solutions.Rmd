@@ -114,7 +114,7 @@ In practice the calculation of the Shapiro_Wilk statistic can be obtained in fou
       b. using the approximations using $m$ and $g$ to calculate $a$ 
  4. Calculate the Shapiro-Wilk statistic.
 
-Here are two versions of possible implementatins.
+Here are two versions of possible implementations.
 
 ```{r,echo=TRUE}
 my_shapiro_wilk_LA <- function(x) {
@@ -157,6 +157,9 @@ my_shapiro_wilk <- function(x) {
   a[1] <- 0
   a[n] <- 0
   
+  
+  # There are two common ways to calculate `g`
+  
   # Using Stirling approximation from Royston 1982 to calculate g
   if (n < 20){
     t <- n-1
@@ -167,7 +170,7 @@ my_shapiro_wilk <- function(x) {
     g <- ((6*t+7)/(6*t+13))*sqrt( (exp(1)/(t+2))*((t+1)/(t+2))**(t-2) )  
   }
   
-  # There are two common was to calculate `g`
+
   # Use Gamma-function to calculate g
   if (n < 20){
     g <- gamma(0.5*n)/(sqrt(2)*gamma(0.5*n+0.5))
@@ -181,7 +184,7 @@ my_shapiro_wilk <- function(x) {
   a[1] <--a_start
   a[n] <-a_start
   
-  # normalize a 
+  # Normalize a 
   a <- a / sqrt(sum(a^2))
   
   # Step 4 Calculate W  
@@ -327,12 +330,14 @@ test_that("Our script gives helpful errors for invalid inputs", {
 The link to all code and scripts can be found here: https://github.com/DavidHuijser/DATA501_SP
 
 
-The final part is self evaluation. The values obtained from the script can deviate from the examples in the paper as well as the `R` package.  To delve into the origin of these deviation is beyond the aim of this assignment. 
+The final part is self evaluation. 
 
-
+The values obtained from the script can deviate from the examples in the paper as well as the `R` package.  
+To delve into the origin of these deviation is beyond the aim of this assignment. 
 
 This script does not have all possible tests available. 
-- For example if you would use this could with a string as argument at it you would return an inaccurate/wrong error. 
+
+- For example if you would use this code with a string as argument it you would return an inaccurate/wrong error. 
 - For example the calculation of `g` can produce NAs (`x <- c(2, 3, 4, 5)`, `x<- c(100, 100, -100, 100)` )
 - For example the calculation can return errors or NA-error (`x <- c(0, 0, 0, 0)`)
 - For example the calculation can lead to memory issues (`x <- rbnorm(2000)*100000`)
