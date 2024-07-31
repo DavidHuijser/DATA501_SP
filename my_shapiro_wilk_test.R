@@ -14,6 +14,7 @@ my_shapiro_wilk <- function(x) {
   a[1] <- 0
   a[n] <- 0
   
+  # There are two common ways to calculate `g`
   # Using Stirling approximation from Royston 1982 to calculate g
   if (n < 20){
     t <- n-1
@@ -24,7 +25,6 @@ my_shapiro_wilk <- function(x) {
     g <- ((6*t+7)/(6*t+13))*sqrt( (exp(1)/(t+2))*((t+1)/(t+2))**(t-2) )  
   }
   
-  # There are two common was to calculate `g`
   # Use Gamma-function to calculate g
   if (n < 20){
     g <- gamma(0.5*n)/(sqrt(2)*gamma(0.5*n+0.5))
